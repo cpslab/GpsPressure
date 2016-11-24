@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 import jp.ac.dendai.im.cps.gpspressure.databinding.ActivityMainBinding;
 import jp.ac.dendai.im.cps.gpspressure.model.SensorStoreClient;
-import jp.ac.dendai.im.cps.gpspressure.model.ThetaClient;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private SensorStoreClient sensorStoreClient;
 
-    private ThetaClient thetaClient;
+//    private ThetaClient thetaClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorStoreClient = new SensorStoreClient();
         sensorStoreClient.createCsv();
 
-        thetaClient = new ThetaClient();
+//        thetaClient = new ThetaClient();
 
         binding.captureStart.setOnClickListener(this::onCaptureStartClick);
     }
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             return;
         }
 
-        thetaClient.startThetaCapture(sensorStoreClient);
+//        thetaClient.startThetaCapture(sensorStoreClient);
     }
 
     public void onClick(View v) {
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // センサーリスナー登録解除
         sensorManager.unregisterListener(this);
         compositeSubscription.unsubscribe();
-        thetaClient.unsubscribe();
+//        thetaClient.unsubscribe();
 
         super.onStop();
     }
