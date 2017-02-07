@@ -31,6 +31,8 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener, LocationListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private static final int MATRIX_SIZE = 16;
 
     private SensorManager sensorManager;
@@ -121,9 +123,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void startSensorLoop() {
         Subscription subscription = Observable
-            .interval(500, TimeUnit.MILLISECONDS)
+            .interval(1, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(aLong -> {
+                Log.d(TAG, "startSensorLoop: long: " + aLong);
                 binding.timeText.setText(Utils.parseDate(System.currentTimeMillis()));
                 sensorStoreClient.saveCsv(location, pressure, attitude);
             });
