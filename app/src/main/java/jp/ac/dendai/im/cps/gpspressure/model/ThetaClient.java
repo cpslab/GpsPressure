@@ -11,13 +11,12 @@ import jp.ac.dendai.im.cps.gpspressure.network.ApiClient;
 import rx.Observable;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 public class ThetaClient {
 
     private static final String TAG = "ThetaClient";
 
-    private CompositeSubscription compositeSubscription = new CompositeSubscription();
+    private Subscription subscription;
 
     private String sessionId;
 
@@ -25,16 +24,16 @@ public class ThetaClient {
 
     private ApiClient apiClient = new ApiClient();
 
-    public ThetaClient() {
+    private OnCaptureStatusListener listener;
+
+    public ThetaClient(OnCaptureStatusListener listener) {
+        this.listener = listener;
         init();
     }
 
-    public void unsubscribe() {
-        compositeSubscription.unsubscribe();
-    }
-
     private void stopThetaCapture(final SensorStoreClient sensorStoreClient) {
-        Subscription subscription = apiClient.stopCapture()
+        listener.onCaptureStop();
+        apiClient.stopCapture()
             .subscribeOn(Schedulers.io())
             .subscribe(s -> {
                 ThetaEntity thetaEntity = gson.fromJson(s, ThetaEntity.class);
@@ -46,30 +45,28 @@ public class ThetaClient {
                 Log.d(TAG, "onCreate: stop capture: " + thetaEntity.results.fileUrls.get(0));
                 sensorStoreClient.finishCsv(thetaEntity.results.fileUrls.get(0));
             });
-        compositeSubscription.add(subscription);
     }
 
     public void startThetaCapture(SensorStoreClient sensorStoreClient) {
-        Subscription subscription = apiClient.startCapture()
+        apiClient.startCapture()
             .subscribeOn(Schedulers.io())
             .subscribe(s -> {
                 Log.d(TAG, "startThetaCapture: " + s);
                 startStopCaptureTimer(sensorStoreClient);
             });
-        compositeSubscription.add(subscription);
     }
 
     private void startStopCaptureTimer(SensorStoreClient sensorStoreClient) {
-        Subscription subscription = Observable.timer(30, TimeUnit.SECONDS)
+        listener.onCaptureStart();
+        Observable.timer(30, TimeUnit.SECONDS)
             .observeOn(Schedulers.io())
             .subscribe(aLong -> {
                 stopThetaCapture(sensorStoreClient);
             });
-        compositeSubscription.add(subscription);
     }
 
     private void init() {
-        Subscription subscription = apiClient.startSession()
+        apiClient.startSession()
             .subscribeOn(Schedulers.io())
             .subscribe(s -> {
                 ThetaEntity thetaEntity = gson.fromJson(s, ThetaEntity.class);
@@ -82,15 +79,18 @@ public class ThetaClient {
 
                 setThetaApiClientVersion();
             });
-        compositeSubscription.add(subscription);
     }
 
     private void setThetaApiClientVersion() {
-        Subscription subscription = apiClient.setClientVersion(sessionId)
+        apiClient.setClientVersion(sessionId)
             .subscribeOn(Schedulers.io())
             .subscribe(s1 -> {
                 Log.d(TAG, "onCreate: setClientVersion: " + s1);
             });
-        compositeSubscription.add(subscription);
+    }
+
+    public interface OnCaptureStatusListener {
+        void onCaptureStart();
+        void onCaptureStop();
     }
 }

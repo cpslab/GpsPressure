@@ -15,13 +15,10 @@ public class SensorStoreClient {
 
     private static final String PATH_DIR = "/sdcard/Android/data/thetagps/";
 
-    private final String filename;
-
-    public SensorStoreClient() {
-        this.filename = Utils.parseDate(System.currentTimeMillis()) + ".csv";
-    }
+    private String filename;
 
     public void createCsv() {
+        this.filename = Utils.parseDate(System.currentTimeMillis()) + ".csv";
         File file = new File(PATH_DIR);
         if (!file.isDirectory()) {
             file.getAbsoluteFile().mkdir();
