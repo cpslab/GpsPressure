@@ -9,76 +9,107 @@
         android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
         <TextView
-            android:id="@+id/theta_text"
+            android:id="@+id/store_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="orientation"
+            android:text="記録していません"
             />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lat_text"
-            android:text="lat_text: "
-            android:layout_below="@+id/theta_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/store_text"
+            >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lng_text"
-            android:text="lng_text: "
-            android:layout_below="@+id/lat_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/alt_text"
-            android:text="alt_text: "
-            android:layout_below="@+id/lng_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+                <TextView
+                    android:id="@+id/theta_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="orientation"
+                    android:layout_below="@+id/store_text"
+                    />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/acc_text"
-            android:text="acc_text: "
-            android:layout_below="@+id/alt_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lat_text"
+                    android:text="lat_text: "
+                    android:layout_below="@+id/theta_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/press_text"
-            android:text="press_text: "
-            android:layout_below="@+id/acc_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lng_text"
+                    android:text="lng_text: "
+                    android:layout_below="@+id/lat_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/time_text"
-            android:text="time: "
-            android:layout_below="@id/press_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/alt_text"
+                    android:text="alt_text: "
+                    android:layout_below="@+id/lng_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
-        <TextView
-            android:id="@+id/provider_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/time_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="provider: "
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/acc_text"
+                    android:text="acc_text: "
+                    android:layout_below="@+id/alt_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/press_text"
+                    android:text="press_text: "
+                    android:layout_below="@+id/acc_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/time_text"
+                    android:text="time: "
+                    android:layout_below="@id/press_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    />
+
+                <TextView
+                    android:id="@+id/provider_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/time_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="provider: "
+                    />
+
+                <TextView
+                    android:id="@+id/gps_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gps status: "
+                    />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
         <Button
             android:layout_width="wrap_content"
@@ -86,8 +117,8 @@
             android:text="Button"
             android:id="@+id/button"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="171dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="70dp"
             android:onClick="onClick" />
 
         <Button
@@ -95,8 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="100dp"
+            android:layout_alignParentRight="true"
             android:text="start"
             />
     </RelativeLayout>

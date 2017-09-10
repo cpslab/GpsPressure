@@ -48,6 +48,22 @@ public class ApiClient {
 
     private OkHttpClient client = new OkHttpClient();
 
+    public Observable<String> uploadSensor(String csv) {
+        Request request = new Request.Builder()
+                .url(buildSensorUploadUrl())
+                .post(RequestBody.create(jsonMedia, csv))
+                .build();
+        return enqueue(request);
+    }
+
+    public Observable<String> fetchProjectList() {
+        Request request = new Request.Builder()
+                .url(buildProjectListUrl())
+                .get()
+                .build();
+        return enqueue(request);
+    }
+
     public Observable<String> getState() {
         Request request = new Request.Builder()
             .url(buildStateUrl())
@@ -97,6 +113,21 @@ public class ApiClient {
         return enqueue(request);
     }
 
+    private HttpUrl buildSensorUploadUrl() {
+        HttpUrl.Builder builder = getMM360RootUrl();
+        return builder
+                .addPathSegment("sensor")
+                .addPathSegment("raw")
+                .build();
+    }
+
+    private HttpUrl buildProjectListUrl() {
+        HttpUrl.Builder builder = getMM360RootUrl();
+        return builder
+                .addPathSegment("projects")
+                .build();
+    }
+
     private HttpUrl buildStateUrl() {
         HttpUrl.Builder builder = getRootUrlBuilder();
         return builder.addEncodedPathSegment(PATH_OSC)
@@ -108,6 +139,13 @@ public class ApiClient {
         return builder.addEncodedPathSegment(PATH_OSC)
             .addEncodedPathSegment(PATH_COMMANDS)
             .addEncodedPathSegment(PATH_EXECUTE).build();
+    }
+
+    private HttpUrl.Builder getMM360RootUrl() {
+        return new HttpUrl.Builder()
+                .scheme("http")
+                .host("mm360-server.herokuapp.com")
+                .addPathSegment("api");
     }
 
     private HttpUrl.Builder getRootUrlBuilder() {
